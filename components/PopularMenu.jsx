@@ -1,11 +1,14 @@
 "use client"
 
+"use client"
+
 import { useState } from "react"
 import Image from "next/image"
-import { Star, Plus, Minus, ShoppingCart } from "lucide-react"
+import { Star, Plus, Minus, ShoppingCart } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 import { useCart } from "../contexts/CartContext"
-
+import { motion } from 'framer-motion'
+import { useInView } from "react-intersection-observer"
 const menuItems = [
   {
     id: 1,
@@ -112,6 +115,10 @@ const menuItems = [
 export default function PopularMenu() {
   const { addToCart } = useCart()
   const [quantities, setQuantities] = useState(menuItems.reduce((acc, item) => ({ ...acc, [item.id]: 1 }), {}))
+  const [ref, inView] = useInView({
+    triggerOnce: false,
+    threshold: 0.1,
+  })
 
   const handleQuantityChange = (id, change) => {
     setQuantities((prev) => ({
@@ -125,61 +132,64 @@ export default function PopularMenu() {
   }
 
   return (
-    <section className="py-16 bg-gray-100">
+    <section ref={ref} className="py-16 bg-gray-100">
       <div className="container mx-auto px-4">
         <h2 className="text-4xl font-bold text-center mb-12">Our Popular Menu</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {menuItems.map((item) => (
-            <div
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
+          {menuItems.map((item, index) => (
+            <motion.div
               key={item.id}
               className="bg-white rounded-lg shadow-lg overflow-hidden transition-transform hover:scale-105"
+              initial={{ opacity: 0, y: 50 }}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
               <Image
                 src={item.image || "/placeholder.svg"}
                 alt={item.name}
                 width={300}
                 height={200}
-                className="w-full h-48 object-cover"
+                className="w-full h-32 md:h-48 object-cover"
               />
               <div className="p-4">
                 <div className="flex justify-between items-center mb-2">
-                  <h3 className="font-bold text-xl">{item.name}</h3>
+                  <h3 className="font-bold text-sm md:text-xl">{item.name}</h3>
                   <div className="flex items-center">
-                    <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                    <span className="ml-1">{item.rating}</span>
+                    <Star className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-current" />
+                    <span className="ml-1 text-sm md:text-base">{item.rating}</span>
                   </div>
                 </div>
-                <p className="text-gray-600 text-sm mb-4">{item.category}</p>
+                <p className="text-gray-600 text-xs md:text-sm mb-2 md:mb-4">{item.category}</p>
                 <div className="flex justify-between items-center">
-                  <span className="text-2xl font-bold text-[#FF7F32]">${item.price.toFixed(2)}</span>
+                  <span className="text-lg md:text-2xl font-bold text-black">${item.price.toFixed(2)}</span>
                   <div className="flex items-center">
                     <Button
                       variant="outline"
                       size="icon"
                       onClick={() => handleQuantityChange(item.id, -1)}
-                      className="rounded-full"
+                      className="rounded-full w-6 h-6 md:w-8 md:h-8"
                     >
-                      <Minus className="h-4 w-4" />
+                      <Minus className="h-3 w-3 md:h-4 md:w-4" />
                     </Button>
-                    <span className="mx-2 font-bold">{quantities[item.id]}</span>
+                    <span className="mx-1 md:mx-2 font-bold text-sm md:text-base">{quantities[item.id]}</span>
                     <Button
                       variant="outline"
                       size="icon"
                       onClick={() => handleQuantityChange(item.id, 1)}
-                      className="rounded-full"
+                      className="rounded-full w-6 h-6 md:w-8 md:h-8"
                     >
-                      <Plus className="h-4 w-4" />
+                      <Plus className="h-3 w-3 md:h-4 md:w-4" />
                     </Button>
                   </div>
                 </div>
                 <Button
-                  className="w-full mt-4 bg-[#FF7F32] hover:bg-[#FF7F32]/90 text-white"
+                  className="w-full mt-2 md:mt-4 bg-black hover:bg-gray-800 text-white text-xs md:text-sm py-1 md:py-2"
                   onClick={() => handleAddToCart(item)}
                 >
-                  <ShoppingCart className="mr-2 h-4 w-4" /> Add to Cart
+                  <ShoppingCart className="mr-1 md:mr-2 h-3 w-3 md:h-4 md:w-4" /> Add to Cart
                 </Button>
               </div>
-            </div>
+            </motion.div>
           ))}
         </div>
       </div>

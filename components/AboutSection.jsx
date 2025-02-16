@@ -3,7 +3,6 @@
 import { motion } from "framer-motion"
 import { useInView } from "react-intersection-observer"
 import { Button } from "@/components/ui/button"
-import { Pizza } from "lucide-react"
 import Image from "next/image"
 
 export default function AboutSection() {
@@ -34,7 +33,7 @@ export default function AboutSection() {
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis,
               pulvinar dapibus leo.
             </p>
-            <Button className="bg-[#FF7F32] hover:bg-[#FF7F32]/90 text-white">Learn More</Button>
+            <Button className="bg-black hover:bg-gray-800 text-white">Learn More</Button>
           </motion.div>
 
           {/* Center Column - Video/Image */}
@@ -64,35 +63,21 @@ export default function AboutSection() {
             initial={{ opacity: 0, y: 50 }}
             animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 50 }}
             transition={{ duration: 0.8 }}
-            className="space-y-8"
+            className="space-y-8 bg-black p-6 rounded-lg text-white"
           >
+            <h3 className="text-3xl font-bold text-center">Opening Hours</h3>
             <div className="space-y-4">
-              <h3 className="text-2xl font-bold">Opening hours</h3>
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Mon - Wednes:</span>
-                  <span>10:00 AM - 7:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Thu - Sat:</span>
-                  <span>10:00 AM - 7:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sun:</span>
-                  <span>10:00 AM - 5:00 PM</span>
-                </div>
+              <div className="flex justify-between items-center border-b border-white/20 pb-2">
+                <span className="text-lg">Mon - Wednes:</span>
+                <span className="text-lg font-semibold">10:00 AM - 7:00 PM</span>
               </div>
-            </div>
-
-            <div className="pt-8 border-t">
-              <div className="flex items-center gap-4">
-                <div className="p-4 rounded-full bg-[#FF7F32]/10">
-                  <Pizza className="w-8 h-8 text-[#FF7F32]" />
-                </div>
-                <div>
-                  <h4 className="text-xl font-bold mb-2">Exceptional Quality</h4>
-                  <p className="text-gray-600">Turpis lacus nisl nibh hendrerit cubilia leo fusce himenaeos ut</p>
-                </div>
+              <div className="flex justify-between items-center border-b border-white/20 pb-2">
+                <span className="text-lg">Thu - Sat:</span>
+                <span className="text-lg font-semibold">10:00 AM - 7:00 PM</span>
+              </div>
+              <div className="flex justify-between items-center pb-2">
+                <span className="text-lg">Sun:</span>
+                <span className="text-lg font-semibold">10:00 AM - 5:00 PM</span>
               </div>
             </div>
           </motion.div>

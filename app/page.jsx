@@ -10,6 +10,7 @@ import FloatingSocialIcons from "../components/FloatingSocialIcons"
 import Testimonials from "../components/Testimonials"
 import Contact from "../components/Contact"
 import FloatingCart from "../components/FloatingCart"
+import LazyLoad from "../components/LazyLoad"
 import { CartProvider } from "../contexts/CartContext"
 
 export default function Home() {
@@ -19,12 +20,24 @@ export default function Home() {
         <Navbar />
         <Hero />
         <SlidingIcons />
-        <AboutSection />
-        <FoodCategories />
-        <PopularMenu />
-        <LatestNews />
-        <Testimonials />
-        <Contact />
+        <LazyLoad>
+          <AboutSection />
+        </LazyLoad>
+        <LazyLoad>
+          <FoodCategories />
+        </LazyLoad>
+        <LazyLoad>
+          <PopularMenu />
+        </LazyLoad>
+        <LazyLoad>
+          <LatestNews />
+        </LazyLoad>
+        <LazyLoad>
+          <Testimonials />
+        </LazyLoad>
+        <LazyLoad>
+          <Contact />
+        </LazyLoad>
         <Footer />
         <FloatingSocialIcons />
         <FloatingCart />
